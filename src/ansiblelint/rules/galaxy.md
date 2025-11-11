@@ -33,6 +33,10 @@ This rule can produce messages such:
 - `galaxy[tags-count]` - `galaxy.yml` tag count cannot exceed 20
 - `galaxy[invalid-dependency-version]` = Invalid collection metadata. Dependency
   version spec range is invalid
+- `galaxy[no-repository]` - `galaxy.yaml` should have a repository key for
+  publication to Galaxy.
+- `galaxy[no-license]` - `galaxy.yaml` should have a license or license_file key
+  for publication to Galaxy.
 
 If you want to ignore some of the messages above, you can add any of them to the
 `ignore_list`.
@@ -117,4 +121,62 @@ license:
   - Apache-2.0
 repository: https://github.com/ORG/REPO_NAME
 tags: [networking, test_tag, test_tag_2]
+```
+
+# License Details
+
+Collections published to Galaxy should include license information. This can be
+provided either through the `license` key (using SPDX license identifiers) or
+the `license_file` key (pointing to a license file in the collection).
+
+## Problematic code
+
+```yaml
+# galaxy.yml
+---
+namespace: bar
+name: foo
+version: 1.0.0
+authors:
+  - John
+readme: ../README.md
+description: "..."
+repository: https://github.com/ORG/REPO_NAME
+tags: [networking]
+# Missing license or license_file
+```
+
+## Correct code (using license key)
+
+```yaml
+# galaxy.yml
+---
+namespace: bar
+name: foo
+version: 1.0.0
+authors:
+  - John
+readme: ../README.md
+description: "..."
+license:
+  - Apache-2.0
+repository: https://github.com/ORG/REPO_NAME
+tags: [networking]
+```
+
+## Correct code (using license_file key)
+
+```yaml
+# galaxy.yml
+---
+namespace: bar
+name: foo
+version: 1.0.0
+authors:
+  - John
+readme: ../README.md
+description: "..."
+license_file: LICENSE
+repository: https://github.com/ORG/REPO_NAME
+tags: [networking]
 ```
